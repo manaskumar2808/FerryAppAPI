@@ -80,8 +80,10 @@ namespace FerryAppApi.Controllers
             return Ok(token);
         }
 
+        [HttpGet]
+        [Route("Profile")]
         public async Task<IActionResult> Profile() {
-            int currentUserId = Convert.ToInt16(ClaimTypes.NameIdentifier);  
+            int currentUserId = Convert.ToInt16(HttpContext.User.Claims.FirstOrDefault().Value);
             var user = await db.ManasUsers.FindAsync(currentUserId);
             if(user == null)
                 return NotFound();
